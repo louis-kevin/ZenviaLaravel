@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenvia\Commands;
+namespace Louisk\Zenvia\Commands;
 
 use Illuminate\Console\Command;
 

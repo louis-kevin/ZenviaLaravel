@@ -6,7 +6,7 @@
  * Time: 10:47
  */
 
-namespace Zenvia\Resources;
+namespace Louisk\Zenvia\Resources;
 
 
 use Zenvia\Exceptions\FieldMissingException;

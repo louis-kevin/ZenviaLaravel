@@ -6,7 +6,7 @@
  * Time: 10:53
  */
 
-namespace Zenvia\Collections;
+namespace Louisk\Zenvia\Collections;
 
 
 use Zenvia\Resources\NumberResource;

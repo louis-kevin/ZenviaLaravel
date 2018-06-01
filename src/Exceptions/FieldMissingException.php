@@ -6,7 +6,7 @@
  * Time: 21:54
  */
 
-namespace Zenvia\Exceptions;
+namespace Louisk\Zenvia\Exceptions;
 
 
 use Illuminate\Http\Response;
