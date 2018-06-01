@@ -9,7 +9,7 @@
 namespace Louis\Zenvia\Resources;
 
 
-use Zenvia\Exceptions\AuthenticationNotFoundedException;
+use Louis\Zenvia\Exceptions\AuthenticationNotFoundedException;
 
 class AuthenticationResource
 {

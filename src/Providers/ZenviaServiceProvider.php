@@ -9,9 +9,9 @@
 namespace Louis\Zenvia\Providers;
 
 
-use Zenvia\Commands\SendSmsTest;
+use Louis\Zenvia\Commands\SendSmsTest;
 use Illuminate\Support\ServiceProvider;
-use Zenvia\Services\Zenvia;
+use Louis\Zenvia\Services\Zenvia;
 
 class ZenviaServiceProvider extends ServiceProvider
 {
@@ -24,13 +24,14 @@ class ZenviaServiceProvider extends ServiceProvider
                 SendSmsTest::class,
             ]);
         }
-        $source = dirname(__DIR__).'/../../config/config.php';
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => config_path('zenvia.php')]);
-        } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure('zenvia');
+        $configPath = dirname(__DIR__).'/../config/config.php';
+       
+        if (function_exists('config_path')) {
+            $publishPath = config_path('zenvia.php');
+        } else {
+            $publishPath = base_path('config/zenvia.php');
         }
-        $this->mergeConfigFrom($source, 'zenvia');
+        $this->publishes([$configPath => $publishPath], 'config');
     }
 
     public function register() {

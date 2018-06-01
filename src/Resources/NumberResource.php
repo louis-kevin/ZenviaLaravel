@@ -9,7 +9,7 @@
 namespace Louis\Zenvia\Resources;
 
 
-use Zenvia\Exceptions\FieldMissingException;
+use Louis\Zenvia\Exceptions\FieldMissingException;
 use Carbon\Carbon;
 
 class NumberResource extends Resource

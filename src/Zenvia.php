@@ -9,15 +9,15 @@
 namespace Louis\Zenvia\Services;
 
 
-use Zenvia\Exceptions\AuthenticationNotFoundedException;
-use Zenvia\Exceptions\FieldMissingException;
-use Zenvia\Collections\NumberCollection;
-use Zenvia\Requests\EnviarSmsRequest;
-use Zenvia\Resources\AuthenticationResource;
-use Zenvia\Resources\MessageResource;
-use Zenvia\Resources\NumberResource;
-use Zenvia\Resources\TextResource;
-use Zenvia\Resources\TitleResource;
+use Louis\Zenvia\Exceptions\AuthenticationNotFoundedException;
+use Louis\Zenvia\Exceptions\FieldMissingException;
+use Louis\Zenvia\Collections\NumberCollection;
+use Louis\Zenvia\Requests\EnviarSmsRequest;
+use Louis\Zenvia\Resources\AuthenticationResource;
+use Louis\Zenvia\Resources\MessageResource;
+use Louis\Zenvia\Resources\NumberResource;
+use Louis\Zenvia\Resources\TextResource;
+use Louis\Zenvia\Resources\TitleResource;
 use Illuminate\Support\Collection;
 
 class Zenvia

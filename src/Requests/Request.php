@@ -9,10 +9,10 @@
 namespace Louis\Zenvia\Requests;
 
 
-use Zenvia\Exceptions\AuthenticationNotFoundedException;
-use Zenvia\Exceptions\FieldMissingException;
-use Zenvia\Exceptions\RequestException;
-use Zenvia\Responses\Response;
+use Louis\Zenvia\Exceptions\AuthenticationNotFoundedException;
+use Louis\Zenvia\Exceptions\FieldMissingException;
+use Louis\Zenvia\Exceptions\RequestException;
+use Louis\Zenvia\Responses\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Response as HttpResponse;

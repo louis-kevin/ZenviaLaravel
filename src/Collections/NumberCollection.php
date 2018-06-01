@@ -9,7 +9,7 @@
 namespace Louis\Zenvia\Collections;
 
 
-use Zenvia\Resources\NumberResource;
+use Louis\Zenvia\Resources\NumberResource;
 use Illuminate\Support\Collection;
 
 class NumberCollection

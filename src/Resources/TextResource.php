@@ -9,7 +9,7 @@
 namespace Louis\Zenvia\Resources;
 
 
-use Zenvia\Exceptions\FieldMissingException;
+use Louis\Zenvia\Exceptions\FieldMissingException;
 
 class TextResource extends Resource
 {

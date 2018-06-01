@@ -9,7 +9,7 @@
 namespace Louis\Zenvia\Requests;
 
 
-use Zenvia\Resources\MessageResource;
+use Louis\Zenvia\Resources\MessageResource;
 
 class EnviarSmsRequest extends Request
 {

@@ -9,8 +9,8 @@
 namespace Louis\Zenvia\Resources;
 
 
-use Zenvia\Exceptions\FieldMissingException;
-use Zenvia\Collections\NumberCollection;
+use Louis\Zenvia\Exceptions\FieldMissingException;
+use Louis\Zenvia\Collections\NumberCollection;
 
 class MessageResource extends Resource
 {
