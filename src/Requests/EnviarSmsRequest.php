@@ -6,7 +6,7 @@
  * Time: 11:10
  */
 
-namespace Louisk\Zenvia\Requests;
+namespace Louis\Zenvia\Requests;
 
 
 use Zenvia\Resources\MessageResource;

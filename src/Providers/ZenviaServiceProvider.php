@@ -6,7 +6,7 @@
  * Time: 12:19
  */
 
-namespace Louisk\Zenvia\Providers;
+namespace Louis\Zenvia\Providers;
 
 
 use Zenvia\Commands\SendSmsTest;

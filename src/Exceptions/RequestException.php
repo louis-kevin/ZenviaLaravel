@@ -6,7 +6,7 @@
  * Time: 21:56
  */
 
-namespace Louisk\Zenvia\Exceptions;
+namespace Louis\Zenvia\Exceptions;
 
 
 class RequestException extends \Exception

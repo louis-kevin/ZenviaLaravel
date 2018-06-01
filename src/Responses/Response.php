@@ -6,7 +6,7 @@
  * Time: 21:23
  */
 
-namespace Louisk\Zenvia\Responses;
+namespace Louis\Zenvia\Responses;
 
 
 class Response

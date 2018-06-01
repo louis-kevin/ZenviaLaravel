@@ -6,7 +6,7 @@
  * Time: 12:23
  */
 
-namespace Louisk\Zenvia\Facades;
+namespace Louis\Zenvia\Facades;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 

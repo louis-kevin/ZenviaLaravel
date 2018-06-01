@@ -6,7 +6,7 @@
  * Time: 10:28
  */
 
-namespace Louisk\Zenvia\Services;
+namespace Louis\Zenvia\Services;
 
 
 use Zenvia\Exceptions\AuthenticationNotFoundedException;

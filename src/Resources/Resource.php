@@ -6,7 +6,7 @@
  * Time: 10:47
  */
 
-namespace Louisk\Zenvia\Resources;
+namespace Louis\Zenvia\Resources;
 
 
 abstract class Resource
