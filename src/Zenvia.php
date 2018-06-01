@@ -14,6 +14,7 @@ use Louis\Zenvia\Exceptions\FieldMissingException;
 use Louis\Zenvia\Collections\NumberCollection;
 use Louis\Zenvia\Requests\EnviarSmsRequest;
 use Louis\Zenvia\Resources\AuthenticationResource;
+use Louis\Zenvia\Resources\FromResource;
 use Louis\Zenvia\Resources\MessageResource;
 use Louis\Zenvia\Resources\NumberResource;
 use Louis\Zenvia\Resources\TextResource;
@@ -57,7 +58,7 @@ class Zenvia
     {
         $this->authentication = new AuthenticationResource($account, $password);
 
-        $this->from = config('zenvia.from', 'Sistema');
+        $this->from = new FromResource(config('zenvia.from', 'Sistema'));
     }
 
     /**

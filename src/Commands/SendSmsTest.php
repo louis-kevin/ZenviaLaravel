@@ -3,6 +3,7 @@
 namespace Louis\Zenvia\Commands;
 
 use Illuminate\Console\Command;
+use Louis\Zenvia\Services\Zenvia;
 
 class SendSmsTest extends Command
 {
@@ -11,7 +12,7 @@ class SendSmsTest extends Command
      *
      * @var string
      */
-    protected $signature = 'teste:sms {number=5541997703592} {text=Teste Mensagem}';
+    protected $signature = 'zenvia:sms {number=5541997703592} {text=Teste Mensagem}';
 
     /**
      * The console command description.
@@ -31,11 +32,22 @@ class SendSmsTest extends Command
     }
 
     /**
-     * Execute the console command.
-     *
-     * @return mixed
+     * @throws \Louis\Zenvia\Exceptions\AuthenticationNotFoundedException
      */
     public function handle()
     {
+        try{
+            $this->info('Iniciando envio de SMS para '. $this->argument('number'));
+            $zenvia = new Zenvia(config('zenvia.account'), config('zenvia.password'));
+            $zenvia->setNumber($this->argument('number'))
+                ->setTitle('SMS Teste')
+                ->setText($this->argument('text'))
+                ->send();
+            $this->info('SMS enviado para '. $this->argument('number'));
+        }catch (\Exception $exception){
+            $this->error('Erro: '.$exception->getMessage());
+            $this->error('Code: '.$exception->getCode());
+
+        }
     }
 }

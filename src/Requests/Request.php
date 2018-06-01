@@ -19,7 +19,7 @@ use Illuminate\Http\Response as HttpResponse;
 
 class Request
 {
-    const ENDPOINT = 'https://api-rest.zenvia360.com.br/services';
+    const ENDPOINT = 'https://api-rest.zenvia.com/services';
     private $key;
 
     /**
@@ -94,10 +94,6 @@ class Request
             $curl = new Client();
             $res = $curl->request('POST', self::ENDPOINT, $this->getOptions($body));
 
-            if ($res->getStatusCode() >= '400') {
-                throw new RequestException('Erro na Zenvia', HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
-            }
-
             return new Response(json_decode($res->getBody(), true));
         } catch (GuzzleException $e) {
             throw new RequestException($e->getMessage(), $e->getCode());
@@ -114,7 +110,7 @@ class Request
     {
         return [
             'headers' => $this->getHeaders(),
-            'body' => $body
+            'body' => json_encode($body)
         ];
     }
 }
