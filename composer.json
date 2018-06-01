@@ -7,10 +7,10 @@
         "php",
         "laravel"
     ],
-    "homepage": "https://github.com/tymondesigns/jwt-auth",
+    "homepage": "https://github.com/keviinlouis/ZenviaLaravel",
     "support": {
-        "issues": "https://github.com/tymondesigns/jwt-auth/issues",
-        "source": "https://github.com/tymondesigns/jwt-auth"
+        "issues": "https://github.com/keviinlouis/ZenviaLaravel/issues",
+        "source": "https://github.com/keviinlouis/ZenviaLaravel"
     },
     "license": "MIT",
     "authors": [

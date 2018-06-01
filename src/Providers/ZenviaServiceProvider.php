@@ -24,10 +24,13 @@ class ZenviaServiceProvider extends ServiceProvider
                 SendSmsTest::class,
             ]);
         }
-
-        $this->publishes([
-            __DIR__.'/../../config/config.php' => config_path('zenvia.php'),
-        ]);
+        $source = dirname(__DIR__).'/../../config/config.php';
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+            $this->publishes([$source => config_path('zenvia.php')]);
+        } elseif ($this->app instanceof LumenApplication) {
+            $this->app->configure('zenvia');
+        }
+        $this->mergeConfigFrom($source, 'zenvia');
     }
 
     public function register() {
