@@ -40,7 +40,6 @@ class SendSmsTest extends Command
             $this->info('Iniciando envio de SMS para '. $this->argument('number'));
             $zenvia = new Zenvia(config('zenvia.account'), config('zenvia.password'));
             $zenvia->setNumber($this->argument('number'))
-                ->setTitle('SMS Teste')
                 ->setText($this->argument('text'))
                 ->send();
             $this->info('SMS enviado para '. $this->argument('number'));

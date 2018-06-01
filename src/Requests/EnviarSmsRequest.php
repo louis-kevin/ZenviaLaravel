@@ -16,9 +16,9 @@ class EnviarSmsRequest extends Request
     const URL = '/send-sms';
     /**
      * @param MessageResource $message
-     * @throws \Zenvia\Exceptions\AuthenticationNotFoundedException
-     * @throws \Zenvia\Exceptions\FieldMissingException
-     * @throws \Zenvia\Exceptions\RequestException
+     * @throws \Louis\Zenvia\Exceptions\AuthenticationNotFoundedException
+     * @throws \Louis\Zenvia\Exceptions\FieldMissingException
+     * @throws \Louis\Zenvia\Exceptions\RequestException
      */
     public function send(MessageResource $message)
     {

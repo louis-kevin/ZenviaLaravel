@@ -37,7 +37,7 @@ class NumberCollection
     /**
      * @param NumberResource $number
      * @return $this
-     * @throws \Zenvia\Exceptions\FieldMissingException
+     * @throws \Louis\Zenvia\Exceptions\FieldMissingException
      */
     public function addNumber($number)
     {

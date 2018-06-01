@@ -15,10 +15,6 @@ use Louis\Zenvia\Collections\NumberCollection;
 class MessageResource extends Resource
 {
     /**
-     * @var TitleResource
-     */
-    private $title;
-    /**
      * @var TextResource
      */
     private $text;
@@ -47,12 +43,11 @@ class MessageResource extends Resource
      * @param NumberCollection $numbers
      * @throws FieldMissingException
      */
-    public function __construct(FromResource $from, TitleResource $title, NumberCollection $numbers, TextResource $text = null)
+    public function __construct(FromResource $from, NumberCollection $numbers, TextResource $text = null)
     {
         if ($numbers->isEmpty()) {
             throw new FieldMissingException('Número não pode ser vazio');
         }
-        $this->title = $title;
         $this->text = $text;
         $this->numbers = $numbers;
         $this->from = $from;

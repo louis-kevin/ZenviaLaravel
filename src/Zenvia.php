@@ -63,8 +63,8 @@ class Zenvia
 
     /**
      * @param string|string[]|NumberResource|NumberResource[] $numbers
-     * @return Zenvia
-     * @throws \Zenvia\Exceptions\FieldMissingException
+     * @throws $this
+     * @throws \Louis\Zenvia\Exceptions\FieldMissingException
      */
     public function setNumber($numbers)
     {
@@ -82,21 +82,9 @@ class Zenvia
     }
 
     /**
-     * @param $title
-     * @return Zenvia
-     * @throws \Zenvia\Exceptions\FieldMissingException
-     */
-    public function setTitle(string $title)
-    {
-        $this->title = new TitleResource($title);
-
-        return $this;
-    }
-
-    /**
      * @param mixed $message
-     * @return Zenvia
-     * @throws \Zenvia\Exceptions\FieldMissingException
+     * @return $this
+     * @throws \Louis\Zenvia\Exceptions\FieldMissingException
      */
     public function setText(string $text)
     {
@@ -114,28 +102,35 @@ class Zenvia
             throw new FieldMissingException('Texto não pode ser vazio');
         }
 
-        if(!$this->title){
-            throw new FieldMissingException('Titulo não pode ser vazio');
-        }
-
         if(!$this->numbers->isEmpty()){
             throw new FieldMissingException('Número não pode ser vazio');
         }
 
-        $this->message = new MessageResource($this->from, $this->title, $this->numbers, $this->text);
+        $this->message = new MessageResource($this->from, $this->numbers, $this->text);
     }
 
     /**
      * @throws AuthenticationNotFoundedException
-     * @throws \Zenvia\Exceptions\FieldMissingException
-     * @throws \Zenvia\Exceptions\RequestException
+     * @throws \Louis\Zenvia\Exceptions\FieldMissingException
+     * @throws \Louis\Zenvia\Exceptions\RequestException
      */
     public function send()
     {
         $request = new EnviarSmsRequest($this->authentication->getKey());
-        $this->message = new MessageResource($this->from, $this->title, $this->numbers, $this->text);
+        $this->message = $this->getMessage();
 
         $response = $request->send($this->message);
 
+    }
+
+    /**
+     * @param string|string[]|NumberResource|NumberResource[] $numbers
+     * @param string $text
+     * @throws AuthenticationNotFoundedException
+     * @throws FieldMissingException
+     * @throws \Louis\Zenvia\Exceptions\RequestException
+     */
+    public function sendMessage($numbers, $text){
+        $this->setNumber($numbers)->setText($text)->send();
     }
 }
