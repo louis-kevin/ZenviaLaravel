@@ -13,7 +13,7 @@ use Louis\Zenvia\Resources\MessageResource;
 
 class EnviarSmsRequest extends Request
 {
-
+    const URL = '/send-sms';
     /**
      * @param MessageResource $message
      * @throws \Zenvia\Exceptions\AuthenticationNotFoundedException
@@ -22,6 +22,6 @@ class EnviarSmsRequest extends Request
      */
     public function send(MessageResource $message)
     {
-        $this->post($message->getBodyRequest());
+        $this->post(self::URL, $message->getBodyRequest());
     }
 }

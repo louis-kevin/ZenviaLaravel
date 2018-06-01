@@ -59,7 +59,7 @@ class MessageResource extends Resource
 
         $this->isMultiNumbers = $this->numbers->isMultiNumbers();
 
-        $this->aggregateId = uniqid();
+        $this->aggregateId = rand(1,9999);
     }
 
 

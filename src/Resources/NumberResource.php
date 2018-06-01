@@ -55,7 +55,7 @@ class NumberResource extends Resource
             $number = '55' . $number;
         }
         $this->number = $number;
-        $this->id = uniqid();
+        $this->id = rand(1,9999);
     }
 
     /**

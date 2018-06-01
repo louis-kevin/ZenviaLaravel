@@ -87,7 +87,7 @@ class Response
             $response = (object) $response;
         }
         if($response->sendSmsResponse){
-            $response = $response->sendSmsResponse;
+            $response = (object) $response->sendSmsResponse;
         }
 
         $this->response = $response;
@@ -95,6 +95,28 @@ class Response
         $this->statusDescription = $response->statusDescription;
         $this->detailCode = $response->detailCode;
         $this->detailDescription = $response->detailDescription;
+    }
+
+    public function getCode()
+    {
+        return $this->statusCode;
+    }
+
+    public function getDetailCode()
+    {
+        return self::getDetailMessageByDetailCode($this->statusCode);
+    }
+
+    public function success()
+    {
+        return in_array($this->statusCode, [
+           self::OK, self::SCHEDULED, self::SENT, self::DELIVERED
+        ]) != false;
+    }
+
+    public function failed()
+    {
+        return !$this->success();
     }
 
     static public function getMessageByResponseCode($code){

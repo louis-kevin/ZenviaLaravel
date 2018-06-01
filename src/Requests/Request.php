@@ -88,11 +88,11 @@ class Request
      * @throws FieldMissingException
      * @throws RequestException
      */
-    public function post($body)
+    public function post($url, $body)
     {
         try {
             $curl = new Client();
-            $res = $curl->request('POST', self::ENDPOINT, $this->getOptions($body));
+            $res = $curl->request('POST', self::ENDPOINT.$url, $this->getOptions($body));
 
             return new Response(json_decode($res->getBody(), true));
         } catch (GuzzleException $e) {
