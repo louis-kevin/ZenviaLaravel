@@ -36,7 +36,9 @@ class ZenviaServiceProvider extends ServiceProvider
 
     public function register() {
         $this->app->singleton('zenvia', function($app){
-            return new Zenvia($app[ 'config' ]->get('zenvia.account'), $app[ 'config' ]->get('zenvia.password'));
+            $account = $app[ 'config' ]->get('zenvia.account')?:'';
+            $password = $app[ 'config' ]->get('zenvia.password')?:'';
+            return new Zenvia($account, $password);
         });
     }
 
