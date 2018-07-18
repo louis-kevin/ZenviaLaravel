@@ -24,6 +24,8 @@ use Illuminate\Support\Collection;
 
 class Zenvia
 {
+    const LOG_INFO = 'info';
+    const LOG_ERROR = 'error';
     /**
      * @var NumberCollection
      */
@@ -59,7 +61,7 @@ class Zenvia
     {
         $this->authentication = new AuthenticationResource($account, $password);
 
-        $this->from = new FromResource(config('zenvia.from', 'Sistema'));
+        $this->from = new FromResource(config('zenvia.from', env('ZENVIA_FROM', 'Sistema')));
     }
 
     /**
@@ -124,10 +126,16 @@ class Zenvia
      */
     public function send()
     {
+        Zenvia::log('Tentativa de envio de sms');
         $request = new EnviarSmsRequest($this->authentication->getKey());
-
-        foreach($this->getMessage()->get() as $message){
-            $response = $request->send($message);
+        Zenvia::log('Gerando mensagens');
+        try{
+            foreach($this->getMessage()->get() as $message){
+                $response = $request->send($message);
+            }
+            Zenvia::log('Mensagens enviadas com sucesso');
+        }catch (\Exception $exception){
+            Zenvia::log($exception->getMessage(), self::LOG_ERROR);
         }
     }
 
@@ -140,5 +148,19 @@ class Zenvia
      */
     public function sendMessage($numbers, $text){
         $this->setNumber($numbers)->setText($text)->send();
+    }
+
+    static public function log($message, $type = self::LOG_INFO)
+    {
+        if(config('zenvia.log', true)){
+            $log = \Log::channel(config('zenvia.channel', 'zenvia'));
+            switch ($type){
+                case self::LOG_ERROR:
+                    $log->error($message);
+                    break;
+                default:
+                    $log->info($message);
+            }
+        }
     }
 }

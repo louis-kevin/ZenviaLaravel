@@ -19,25 +19,37 @@ class ZenviaServiceProvider extends ServiceProvider
     protected $defer = true;
     public function boot()
     {
+
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 SendSmsTest::class,
             ]);
         }
-        $configPath = dirname(__DIR__).'/../config/config.php';
+        $configPath = $this->getConfigDir();
+        $publishPath = base_path('config/zenvia.php');
        
-        if (function_exists('config_path')) {
-            $publishPath = config_path('zenvia.php');
-        } else {
-            $publishPath = base_path('config/zenvia.php');
-        }
         $this->publishes([$configPath => $publishPath], 'config');
+
+        if(config('zenvia.log',  true)){
+            $channels = \Config::get('logging.channels');
+
+            $channels[config('zenvia.channel',  'zenvia')] = [
+                'driver' => 'single',
+                'path' => storage_path('logs/zenvia.log'),
+                'level' => 'debug',
+            ];
+
+            \Config::set('logging.channels', $channels);
+
+            file_exists('storage/logs/zenvia.log')?:fopen('storage/logs/zenvia.log', 'x+');
+        }
     }
 
     public function register() {
         $this->app->singleton('zenvia', function($app){
-            $account = $app[ 'config' ]->get('zenvia.account')?:'';
-            $password = $app[ 'config' ]->get('zenvia.password')?:'';
+            $account = config('zenvia.account', env('ZENVIA_ACCOUNT'));
+            $password = config('zenvia.password', env('ZENVIA_PASSWORD'));
             return new Zenvia($account, $password);
         });
     }
@@ -45,5 +57,9 @@ class ZenviaServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['zenvia'];
+    }
+
+    private function getConfigDir(){
+        return dirname(__DIR__).'/../config/config.php';
     }
 }
