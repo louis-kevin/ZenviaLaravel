@@ -19,7 +19,7 @@ class NumberCollection
      */
     private $numbers;
 
-    public function __construct(array $numbers = null)
+    public function __construct($numbers = [])
     {
         $this->numbers = collect($numbers);
     }

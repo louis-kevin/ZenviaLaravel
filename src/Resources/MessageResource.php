@@ -110,4 +110,6 @@ class MessageResource extends Resource
     {
         return $this->isMultiNumbers;
     }
+
+
 }

@@ -23,7 +23,7 @@ class EnviarSmsRequest extends Request
      */
     public function send(MessageResource $message)
     {
-        $this->post($this->getEndpoint($message), $message->getBodyRequest());
+        return $this->post($this->getEndpoint($message), $message->getBodyRequest());
     }
 
     public function getEndpoint(MessageResource $messageResource)

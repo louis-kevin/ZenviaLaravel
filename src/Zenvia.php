@@ -9,6 +9,7 @@
 namespace Louis\Zenvia\Services;
 
 
+use Louis\Zenvia\Collections\MessageCollection;
 use Louis\Zenvia\Exceptions\AuthenticationNotFoundedException;
 use Louis\Zenvia\Exceptions\FieldMissingException;
 use Louis\Zenvia\Collections\NumberCollection;
@@ -36,9 +37,9 @@ class Zenvia
      */
     private $text;
     /**
-     * @var MessageResource
+     * @var MessageCollection
      */
-    private $message;
+    private $messages;
     /**
      * @var AuthenticationResource
      */
@@ -106,7 +107,14 @@ class Zenvia
             throw new FieldMissingException('número');
         }
 
-        $this->message = new MessageResource($this->from, $this->numbers, $this->text);
+        $this->messages = new MessageCollection();
+
+        foreach ($this->numbers->get()->chunk(100) as $numbersChunked){
+
+            $this->messages->add(new MessageResource($this->from, new NumberCollection($numbersChunked), $this->text));
+        }
+
+        return $this->messages;
     }
 
     /**
@@ -118,10 +126,9 @@ class Zenvia
     {
         $request = new EnviarSmsRequest($this->authentication->getKey());
 
-        $this->getMessage();
-
-        $response = $request->send($this->message);
-
+        foreach($this->getMessage()->get() as $message){
+            $response = $request->send($message);
+        }
     }
 
     /**
