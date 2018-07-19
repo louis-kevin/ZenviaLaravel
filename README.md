@@ -37,5 +37,23 @@ Para utilizar de forma rápida, usando o facade, você deverá utilizar da segui
 ### Manualmente
 Para utilizar o zenvia com mais opções de configurações, você pode instanciar a service
 
+```php
+try {
+    $zenvia = new Zenvia(config('zenvia.account'), config('zenvia.password'));
+
+    $zenvia->setNumber('5541999999999')
+        ->setNumber(['5541999999999', '5541999999999'])
+        ->setNumber(collect(['5541999999999', '5541999999999']))
+        ->setText('Mensagem Teste')
+        ->send();
+} catch (AuthenticationNotFoundedException $e) {
+    // Some code
+} catch (FieldMissingException $e) {
+    // Some code
+} catch (RequestException $e) {
+    // Some code
+}
+```
+
 
 
