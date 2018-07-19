@@ -48,7 +48,7 @@ class NumberResource extends Resource
     public function __construct(string $number)
     {
         if (blank($number)) {
-            throw new FieldMissingException('número não pode ser vazio');
+            throw new FieldMissingException('Número');
         }
         $number = $this->removeMaskTelefone($number);
         if (strlen($number) < 12) {

@@ -105,4 +105,11 @@ class MessageResource extends Resource
 
         return $bodyNumber;
     }
+
+    public function isMultiMessage()
+    {
+        return $this->isMultiNumbers;
+    }
+
+
 }

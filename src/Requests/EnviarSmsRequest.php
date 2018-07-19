@@ -14,6 +14,7 @@ use Louis\Zenvia\Resources\MessageResource;
 class EnviarSmsRequest extends Request
 {
     const URL = '/send-sms';
+    const URLMULTI = '/send-sms-multiple';
     /**
      * @param MessageResource $message
      * @throws \Louis\Zenvia\Exceptions\AuthenticationNotFoundedException
@@ -22,6 +23,11 @@ class EnviarSmsRequest extends Request
      */
     public function send(MessageResource $message)
     {
-        $this->post(self::URL, $message->getBodyRequest());
+        return $this->post($this->getEndpoint($message), $message->getBodyRequest());
+    }
+
+    public function getEndpoint(MessageResource $messageResource)
+    {
+        return $messageResource->isMultiMessage() ? self::URLMULTI : self::URL;
     }
 }

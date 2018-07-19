@@ -86,10 +86,9 @@ class Response
         if(is_array($response)){
             $response = (object) $response;
         }
-        if($response->sendSmsResponse){
+        if($response->sendSmsResponse ?? false){
             $response = (object) $response->sendSmsResponse;
         }
-
         $this->response = $response;
         $this->statusCode = $response->statusCode;
         $this->statusDescription = $response->statusDescription;

@@ -9,6 +9,7 @@
 namespace Louis\Zenvia\Services;
 
 
+use Louis\Zenvia\Collections\MessageCollection;
 use Louis\Zenvia\Exceptions\AuthenticationNotFoundedException;
 use Louis\Zenvia\Exceptions\FieldMissingException;
 use Louis\Zenvia\Collections\NumberCollection;
@@ -18,33 +19,30 @@ use Louis\Zenvia\Resources\FromResource;
 use Louis\Zenvia\Resources\MessageResource;
 use Louis\Zenvia\Resources\NumberResource;
 use Louis\Zenvia\Resources\TextResource;
-use Louis\Zenvia\Resources\TitleResource;
 use Illuminate\Support\Collection;
 
 class Zenvia
 {
+    const LOG_INFO = 'info';
+    const LOG_ERROR = 'error';
     /**
      * @var NumberCollection
      */
     private $numbers;
     /**
-     * @var TitleResource
-     */
-    private $title;
-    /**
      * @var TextResource
      */
     private $text;
     /**
-     * @var MessageResource
+     * @var MessageCollection
      */
-    private $message;
+    private $messages;
     /**
      * @var AuthenticationResource
      */
     private $authentication;
     /**
-     * @var \Illuminate\Config\Repository|mixed
+     * @var FromResource
      */
     private $from;
 
@@ -53,22 +51,26 @@ class Zenvia
      * @param $account
      * @param $password
      * @throws AuthenticationNotFoundedException
+     * @throws FieldMissingException
      */
     public function __construct($account, $password)
     {
         $this->authentication = new AuthenticationResource($account, $password);
 
-        $this->from = new FromResource(config('zenvia.from', 'Sistema'));
+        $this->from = new FromResource(config('zenvia.from', env('ZENVIA_FROM', 'Sistema')));
     }
 
     /**
      * @param string|string[]|NumberResource|NumberResource[] $numbers
+     * @return Zenvia
      * @throws $this
      * @throws \Louis\Zenvia\Exceptions\FieldMissingException
      */
     public function setNumber($numbers)
     {
-        $this->numbers = new NumberCollection();
+        if(!$this->numbers instanceof NumberCollection){
+            $this->numbers = new NumberCollection();
+        }
 
         if(!is_array($numbers) && !$numbers instanceof Collection){
             $numbers = (array) $numbers;
@@ -77,14 +79,13 @@ class Zenvia
         foreach($numbers as $number){
             $this->numbers->addNumber($number instanceof NumberResource ? $number : new NumberResource($number));
         }
-
         return $this;
     }
 
     /**
-     * @param mixed $message
+     * @param string $text
      * @return $this
-     * @throws \Louis\Zenvia\Exceptions\FieldMissingException
+     * @throws FieldMissingException
      */
     public function setText(string $text)
     {
@@ -99,14 +100,20 @@ class Zenvia
     public function getMessage()
     {
         if(!$this->text){
-            throw new FieldMissingException('Texto não pode ser vazio');
+            throw new FieldMissingException('texto');
+        }
+        if($this->numbers->isEmpty()){
+            throw new FieldMissingException('número');
         }
 
-        if(!$this->numbers->isEmpty()){
-            throw new FieldMissingException('Número não pode ser vazio');
+        $this->messages = new MessageCollection();
+
+        foreach ($this->numbers->get()->chunk(100) as $numbersChunked){
+
+            $this->messages->add(new MessageResource($this->from, new NumberCollection($numbersChunked), $this->text));
         }
 
-        $this->message = new MessageResource($this->from, $this->numbers, $this->text);
+        return $this->messages;
     }
 
     /**
@@ -116,11 +123,17 @@ class Zenvia
      */
     public function send()
     {
+        Zenvia::log('Tentativa de envio de sms');
         $request = new EnviarSmsRequest($this->authentication->getKey());
-        $this->message = $this->getMessage();
-
-        $response = $request->send($this->message);
-
+        Zenvia::log('Gerando mensagens');
+        try{
+            foreach($this->getMessage()->get() as $message){
+                $response = $request->send($message);
+            }
+            Zenvia::log('Mensagens enviadas com sucesso');
+        }catch (\Exception $exception){
+            Zenvia::log($exception->getMessage(), self::LOG_ERROR);
+        }
     }
 
     /**
@@ -132,5 +145,19 @@ class Zenvia
      */
     public function sendMessage($numbers, $text){
         $this->setNumber($numbers)->setText($text)->send();
+    }
+
+    static public function log($message, $type = self::LOG_INFO)
+    {
+        if(config('zenvia.log', true)){
+            $log = \Log::channel(config('zenvia.channel', 'zenvia'));
+            switch ($type){
+                case self::LOG_ERROR:
+                    $log->error($message);
+                    break;
+                default:
+                    $log->info($message);
+            }
+        }
     }
 }

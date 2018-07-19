@@ -1,8 +1,11 @@
 <?php
 
 return [
-  'account' => env('ZENVIA_ACCOUNT'),
-  'password' => env('ZENVIA_PASSWORD'),
+    'account' => env('ZENVIA_ACCOUNT'),
+    'password' => env('ZENVIA_PASSWORD'),
 
-  'from' => env('ZENVIA_FROM', 'Sistema')
+    'from' => env('ZENVIA_FROM', 'Sistema'),
+
+    'log' => true
+
 ];

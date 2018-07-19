@@ -94,7 +94,7 @@ class Request
             $curl = new Client();
             $res = $curl->request('POST', self::ENDPOINT.$url, $this->getOptions($body));
 
-            return new Response(json_decode($res->getBody(), true));
+            return $this->makeResponse(json_decode($res->getBody(), true));
         } catch (GuzzleException $e) {
             throw new RequestException($e->getMessage(), $e->getCode());
         }
@@ -112,5 +112,14 @@ class Request
             'headers' => $this->getHeaders(),
             'body' => json_encode($body)
         ];
+    }
+
+    private function makeResponse($response){
+        $responses = $response['sendSmsMultiResponse']['sendSmsResponseList'] ??  (array) $response['sendSmsResponse'];
+        $responseCollection = collect();
+        foreach($responses as $responseItem){
+            $responseCollection[] = new Response($responseItem);
+        }
+        return $responseCollection;
     }
 }
