@@ -29,7 +29,7 @@ Para utilizar de forma rápida, usando o facade, você deverá utilizar da segui
   \Zenvia::sendMessage('5541999999999', 'Mensagem Teste');
 ```
 
-- Para envio para um ou mais numeros (Esta função aceita String, Array ou Collection
+- Para envio para um ou mais numeros (Esta função aceita String, Array ou Collection)
 ```php
   \Zenvia::sendMessage(['5541999999999', '5541999999999'], 'Mensagem Teste');
 ```
