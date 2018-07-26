@@ -78,10 +78,16 @@ class Zenvia
         if(!is_array($numbers) && !$numbers instanceof Collection){
             $numbers = (array) $numbers;
         }
-
-        foreach($numbers as $number){
-            $this->numbers->addNumber($number instanceof NumberResource ? $number : new NumberResource($number));
-        }
+        
+            foreach($numbers as $number){
+                try{
+                    $this->numbers->addNumber($number instanceof NumberResource ? $number : new NumberResource($number));
+                }catch (FieldMissingException $exception){
+                    
+                }
+            }
+        
+        
         return $this;
     }
 
@@ -152,15 +158,16 @@ class Zenvia
 
     static public function log($message, $type = self::LOG_INFO)
     {
-        if(config('zenvia.log', true)){
-            $log = \Log::channel(config('zenvia.channel', 'zenvia'));
-            switch ($type){
-                case self::LOG_ERROR:
-                    $log->error($message);
-                    break;
-                default:
-                    $log->info($message);
-            }
+        if(!config('zenvia.log', true)){
+            return;
+        }
+        $log = \Log::channel(config('zenvia.channel', 'zenvia'));
+        switch ($type){
+            case self::LOG_ERROR:
+                $log->error($message);
+                break;
+            default:
+                $log->info($message);
         }
     }
 }

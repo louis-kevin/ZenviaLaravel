@@ -70,9 +70,9 @@ class MessageResource extends Resource
                     'aggregateId' => $this->aggregateId,
                     'sendSmsRequestList' => $this->getBodyMultiNumbers()
                 ]
-
             ];
         }
+        dd(1);
         return [
             'sendSmsRequest' => $this->getBodyOneNumber()
         ];

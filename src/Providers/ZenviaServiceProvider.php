@@ -39,10 +39,10 @@ class ZenviaServiceProvider extends ServiceProvider
                 'path' => storage_path('logs/zenvia.log'),
                 'level' => 'debug',
             ];
-
             \Config::set('logging.channels', $channels);
-
-            file_exists('storage/logs/zenvia.log')?:fopen('storage/logs/zenvia.log', 'x+');
+            if(!\Storage::exists('logs/zenvia.log')){
+                \Storage::put('logs/zenvia.log', '['.now()->toDateTimeString().'] local.INFO: Criação do arquivo zenvia.log');
+            }
         }
     }
 
