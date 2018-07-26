@@ -19,7 +19,6 @@ use Louis\Zenvia\Resources\FromResource;
 use Louis\Zenvia\Resources\MessageResource;
 use Louis\Zenvia\Resources\NumberResource;
 use Louis\Zenvia\Resources\TextResource;
-use Louis\Zenvia\Resources\TitleResource;
 use Illuminate\Support\Collection;
 
 class Zenvia
@@ -30,10 +29,6 @@ class Zenvia
      * @var NumberCollection
      */
     private $numbers;
-    /**
-     * @var TitleResource
-     */
-    private $title;
     /**
      * @var TextResource
      */
@@ -47,7 +42,7 @@ class Zenvia
      */
     private $authentication;
     /**
-     * @var \Illuminate\Config\Repository|mixed
+     * @var FromResource
      */
     private $from;
 
@@ -56,6 +51,7 @@ class Zenvia
      * @param $account
      * @param $password
      * @throws AuthenticationNotFoundedException
+     * @throws FieldMissingException
      */
     public function __construct($account, $password)
     {
@@ -66,6 +62,7 @@ class Zenvia
 
     /**
      * @param string|string[]|NumberResource|NumberResource[] $numbers
+     * @return Zenvia
      * @throws $this
      * @throws \Louis\Zenvia\Exceptions\FieldMissingException
      */
@@ -92,9 +89,9 @@ class Zenvia
     }
 
     /**
-     * @param mixed $message
+     * @param string $text
      * @return $this
-     * @throws \Louis\Zenvia\Exceptions\FieldMissingException
+     * @throws FieldMissingException
      */
     public function setText(string $text)
     {
