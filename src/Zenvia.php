@@ -137,7 +137,7 @@ class Zenvia
         Zenvia::log('Gerando mensagens');
         try{
             foreach($this->getMessage()->get() as $message){
-                $responses[] = $request->send($message);
+                $responses = array_merge($responses, $request->send($message));
             }
             Zenvia::log('Mensagens enviadas com sucesso');
         }catch (\Exception $exception){
