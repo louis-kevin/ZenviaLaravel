@@ -151,6 +151,14 @@ class Zenvia
          * @var Response $response
          */
         foreach($responses as $response){
+            if($response instanceof Collection){
+                foreach($response as $item){
+                     if($response->failed()){
+                        Zenvia::log('Error: '.$response->getDetailCode(), self::LOG_ERROR);
+                    }
+                }
+                continue;
+            }
             if($response->failed()){
                 Zenvia::log('Error: '.$response->getDetailCode(), self::LOG_ERROR);
             }
