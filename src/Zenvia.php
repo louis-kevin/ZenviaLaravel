@@ -158,8 +158,7 @@ class Zenvia
                     }
                 }
                 continue;
-            }
-            if($response->failed()){
+            }else if($response->failed()){
                 Zenvia::log('Error: '.$response->getDetailCode(), self::LOG_ERROR);
             }
         }
