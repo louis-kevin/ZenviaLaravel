@@ -149,13 +149,13 @@ class Response
     }
 
     static public function getDetailMessageByDetailCode($code){
-        if(is_int($code)){
-            if($code < 100){
-                if($code <= 0){
-                    $code = '000';
-                }else{
-                    $code = '0'.$code;
-                }
+        $code = (int) $code;
+        
+        if($code < 100){
+            if($code <= 0){
+                $code = '000';
+            }else{
+                $code = '0'.$code;
             }
         }
         return self::DETAIL_CODE[$code];
